@@ -39,18 +39,15 @@ textarea { min-height: 66px; resize: vertical; }
 .hr { border: none; border-top: 1px solid #eee; margin: 12px 0; }
 .hint { font-size: 12px; color: #888; margin-bottom: 12px; }
 
-/* WORKER ROWS - pure HTML, no JS needed for first 5 */
 .worker-rows { display: flex; flex-direction: column; gap: 8px; }
 .worker-rows input { width: 100%; }
 
-/* CHECKBOXES - pure HTML */
 .cb-list { display: flex; flex-direction: column; }
-.cb-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f0f0f0; }
+.cb-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
 .cb-item:last-child { border-bottom: none; }
 .cb-item input[type=checkbox] { width: 22px; height: 22px; flex-shrink: 0; margin-top: 1px; cursor: pointer; accent-color: #2d6aad; }
 .cb-item .cb-label { font-size: 15px; color: #222; line-height: 1.4; padding-top: 2px; }
 
-/* RISK TABLE */
 .risk-table { width: 100%; border-collapse: collapse; margin-top: 6px; }
 .risk-table th { font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: .04em; padding: 6px 8px; background: #f7f9fb; border: 1px solid #e0e0e0; text-align: center; }
 .risk-table th:first-child { text-align: left; }
@@ -59,32 +56,34 @@ textarea { min-height: 66px; resize: vertical; }
 .risk-table input[type=radio] { width: 18px; height: 18px; accent-color: #2d6aad; cursor: pointer; }
 .risk-table tr:nth-child(even) td { background: #fafafa; }
 
-/* SIGNATURE */
-.sig-box { border: 1.5px solid #ccc; border-radius: 6px; padding: 12px; background: #f7f9fb; }
-.sig-lbl { font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
-#sigPad { display: block; width: 100%; height: 110px; background: #fff; border: 1.5px dashed #ccc; border-radius: 6px; touch-action: none; cursor: crosshair; }
-.sig-clear-btn { font-size: 13px; color: #2d6aad; background: none; border: none; cursor: pointer; margin-top: 6px; font-weight: bold; font-family: Arial, Helvetica, sans-serif; text-decoration: underline; }
+/* TYPED ACKNOWLEDGMENT */
+.ack-box { background: #e8f2fb; border: 1px solid #90c4f0; border-radius: 6px; padding: 14px; margin-bottom: 14px; }
+.ack-box p { font-size: 14px; color: #1e3a5f; line-height: 1.7; margin-bottom: 12px; }
+.ack-box .ack-statement { font-size: 13px; color: #444; font-style: italic; background: #fff; border: 1px solid #90c4f0; border-radius: 6px; padding: 10px 12px; margin-bottom: 14px; line-height: 1.6; }
+.name-input-wrap { display: flex; flex-direction: column; gap: 5px; }
+.name-input-wrap label { font-size: 11px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: .04em; }
+.name-input-wrap input { width: 100%; padding: 12px; border: 2px solid #2d6aad; border-radius: 6px; font-size: 16px; color: #1e3a5f; font-weight: bold; font-family: Arial, Helvetica, sans-serif; background: #fff; }
+.name-input-wrap input:focus { outline: 2px solid #1e3a5f; outline-offset: 1px; }
+.ack-note { font-size: 12px; color: #666; margin-top: 8px; font-style: italic; }
 
-.consent-box { background: #e8f2fb; border: 1px solid #90c4f0; border-radius: 6px; padding: 12px; font-size: 13px; color: #1e3a5f; line-height: 1.6; margin-bottom: 14px; }
-
-.submit-btn { width: 100%; padding: 16px; font-size: 17px; font-weight: bold; background: #1e3a5f; color: #fff; border: none; border-radius: 10px; cursor: pointer; font-family: Arial, Helvetica, sans-serif; }
+.submit-btn { width: 100%; padding: 18px; font-size: 18px; font-weight: bold; background: #1e3a5f; color: #fff; border: none; border-radius: 10px; cursor: pointer; font-family: Arial, Helvetica, sans-serif; margin-top: 4px; }
 .submit-btn:hover { background: #2d6aad; }
+.submit-btn:active { background: #163058; }
 .footer-note { font-size: 11px; color: #999; text-align: center; margin-top: 10px; line-height: 1.6; }
 
-/* RESULT */
-#resultSection { display: none; background: #fff; border-radius: 10px; border: 1px solid #dde3ea; margin-bottom: 14px; overflow: hidden; }
+.error-msg { background: #fff5f5; border: 1px solid #ffa8a8; border-radius: 6px; padding: 12px 14px; font-size: 14px; color: #c00; margin-bottom: 12px; display: none; font-weight: bold; }
+.error-msg.show { display: block; }
+
+#resultSection { display: none; background: #fff; border-radius: 10px; border: 1px solid #dde3ea; margin-top: 14px; overflow: hidden; }
 #resultSection.show { display: block; }
-.result-head { background: #2b8a3e; padding: 12px 16px; }
-.result-head h2 { color: #fff; font-size: 15px; font-weight: bold; }
+.result-head { background: #2b8a3e; padding: 14px 16px; }
+.result-head h2 { color: #fff; font-size: 16px; font-weight: bold; }
 .result-body { padding: 14px 16px; }
-.rec-box { background: #f7f9fb; border: 1px solid #dde; border-radius: 6px; padding: 12px; font-family: "Courier New", monospace; font-size: 11px; line-height: 1.7; white-space: pre-wrap; color: #222; margin-bottom: 12px; max-height: 320px; overflow-y: auto; }
+.rec-box { background: #f7f9fb; border: 1px solid #dde; border-radius: 6px; padding: 12px; font-family: "Courier New", monospace; font-size: 11px; line-height: 1.7; white-space: pre-wrap; color: #222; margin-bottom: 12px; max-height: 360px; overflow-y: auto; }
 .result-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .rbtn { padding: 13px; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; border: 1.5px solid #ccc; background: #fff; color: #333; font-family: Arial, Helvetica, sans-serif; }
 .rbtn.blue { background: #2d6aad; border-color: #2d6aad; color: #fff; }
-.rbtn.full { grid-column: 1/-1; }
-
-.error-msg { background: #fff5f5; border: 1px solid #ffa8a8; border-radius: 6px; padding: 10px 14px; font-size: 14px; color: #c00; margin-bottom: 12px; display: none; }
-.error-msg.show { display: block; }
+.rbtn.full { grid-column: 1 / -1; }
 
 @media (max-width: 480px) {
   .fg2 { grid-template-columns: 1fr; }
@@ -108,7 +107,7 @@ textarea { min-height: 66px; resize: vertical; }
 
 <div class="wrap">
 
-  <div class="error-msg" id="errorMsg"></div>
+  <div class="error-msg" id="errorMsg">placeholder</div>
 
   <!-- JOB INFO -->
   <div class="card">
@@ -167,7 +166,7 @@ textarea { min-height: 66px; resize: vertical; }
 
   <!-- WORKERS -->
   <div class="card">
-    <div class="card-head"><h2>Workers on Site Today <span class="req">*</span></h2></div>
+    <div class="card-head"><h2>Workers on Site Today</h2></div>
     <div class="card-body">
       <p class="hint">Enter the name of each worker on site today</p>
       <div class="worker-rows">
@@ -212,15 +211,10 @@ textarea { min-height: 66px; resize: vertical; }
         <textarea id="otherHazards" placeholder="Describe any additional hazards..."></textarea>
       </div>
       <div class="hr"></div>
-      <p class="hint" style="margin-bottom:8px"><strong>Risk level for each checked hazard above</strong> &mdash; L = Low &nbsp; M = Medium &nbsp; H = High</p>
+      <p class="hint" style="margin-bottom:8px"><strong>Rate the risk level for each hazard checked above</strong><br>Only rate hazards you checked. L = Low &nbsp; M = Medium &nbsp; H = High</p>
       <table class="risk-table">
         <thead>
-          <tr>
-            <th style="width:55%">Hazard</th>
-            <th style="width:15%">L</th>
-            <th style="width:15%">M</th>
-            <th style="width:15%">H</th>
-          </tr>
+          <tr><th style="width:55%">Hazard</th><th style="width:15%">L</th><th style="width:15%">M</th><th style="width:15%">H</th></tr>
         </thead>
         <tbody>
           <tr><td>Falls from height</td><td><input type="radio" name="r_falls" value="L"></td><td><input type="radio" name="r_falls" value="M"></td><td><input type="radio" name="r_falls" value="H"></td></tr>
@@ -319,36 +313,36 @@ textarea { min-height: 66px; resize: vertical; }
     </div>
   </div>
 
-  <!-- STEP 4: SIGNATURE -->
+  <!-- STEP 4: ACKNOWLEDGMENT -->
   <div class="card">
     <div class="card-head"><span class="step-num">4</span><h2>Supervisor Acknowledgment <span class="req">*</span></h2></div>
     <div class="card-body">
-      <div class="consent-box">By signing below, I confirm that all workers on site today have been briefed on all identified hazards and controls, and are competent to perform today's work safely in compliance with the Alberta OH&amp;S Act, Regulation and Code.</div>
-      <div class="sig-box">
-        <div class="sig-lbl">Draw signature here <span class="req">*</span></div>
-        <canvas id="sigPad" width="640" height="110"></canvas>
-        <button class="sig-clear-btn" onclick="clearSig()" type="button">Clear signature</button>
-      </div>
-      <div class="hr"></div>
-      <div class="field">
-        <label>Print full name <span class="req">*</span></label>
-        <input type="text" id="printName" placeholder="Full name">
+      <div class="ack-box">
+        <p>By typing your full name below and clicking <strong>Submit</strong>, you are electronically acknowledging and agreeing to the following statement:</p>
+        <div class="ack-statement">
+          "I confirm that I have identified the hazards listed above, that all workers on site today have been informed of these hazards and the controls in place, and that all workers are competent to perform today's work safely. This assessment has been completed in accordance with the Alberta Occupational Health and Safety Act, Regulation and Code."
+        </div>
+        <div class="name-input-wrap">
+          <label>Type your full name to acknowledge <span class="req">*</span></label>
+          <input type="text" id="printName" placeholder="Type your full name here">
+        </div>
+        <p class="ack-note">Typing your name above constitutes your electronic acknowledgment of this FLHA. Date and time are automatically recorded upon submission.</p>
       </div>
     </div>
   </div>
 
-  <button class="submit-btn" onclick="submitForm()" type="button">Complete and Generate Record</button>
-  <p class="footer-note">Alberta OH&amp;S compliant &bull; Records retained minimum 3 years<br>JBD Construction Ltd. &bull; New Home Construction FLHA</p>
+  <button class="submit-btn" id="submitBtn" type="button">Submit FLHA</button>
+  <p class="footer-note">Alberta OH&amp;S compliant &bull; Records retained minimum 3 years &bull; JBD Construction Ltd.</p>
 
   <!-- RESULT -->
   <div id="resultSection">
-    <div class="result-head"><h2>&#10003; FLHA Complete &mdash; Your Record</h2></div>
+    <div class="result-head"><h2>&#10003; FLHA Submitted Successfully</h2></div>
     <div class="result-body">
-      <p style="font-size:13px;color:#555;margin-bottom:10px">Copy or print this record and send to your site supervisor.</p>
+      <p style="font-size:13px;color:#555;margin-bottom:12px;">Your completed FLHA record is below. Use <strong>Print / Save PDF</strong> to save a copy, or <strong>Copy text</strong> to paste it into an email or message to your site supervisor.</p>
       <div class="rec-box" id="recText"></div>
       <div class="result-btns">
         <button class="rbtn blue" onclick="copyRec()" type="button">Copy text</button>
-        <button class="rbtn blue" onclick="printRec()" type="button">Print / Save PDF</button>
+        <button class="rbtn blue full" onclick="printRec()" type="button">Print / Save as PDF</button>
       </div>
     </div>
   </div>
@@ -356,37 +350,22 @@ textarea { min-height: 66px; resize: vertical; }
 </div>
 
 <script>
-var sigCtx, sigCanvas, sigDrawing = false;
+document.getElementById("dateField").value = new Date().toISOString().split("T")[0];
 
-function initSig() {
-  sigCanvas = document.getElementById("sigPad");
-  sigCtx = sigCanvas.getContext("2d");
-  sigCtx.strokeStyle = "#1e3a5f";
-  sigCtx.lineWidth = 2.5;
-  sigCtx.lineCap = "round";
-  sigCtx.lineJoin = "round";
-  function pos(e) {
-    var r = sigCanvas.getBoundingClientRect();
-    var sx = sigCanvas.width / r.width;
-    var sy = sigCanvas.height / r.height;
-    var src = e.touches ? e.touches[0] : e;
-    return { x: (src.clientX - r.left) * sx, y: (src.clientY - r.top) * sy };
-  }
-  sigCanvas.addEventListener("mousedown", function(e) { sigDrawing = true; var p = pos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); e.preventDefault(); });
-  sigCanvas.addEventListener("mousemove", function(e) { if (!sigDrawing) return; var p = pos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); });
-  sigCanvas.addEventListener("mouseup", function() { sigDrawing = false; });
-  sigCanvas.addEventListener("mouseleave", function() { sigDrawing = false; });
-  sigCanvas.addEventListener("touchstart", function(e) { e.preventDefault(); sigDrawing = true; var p = pos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x, p.y); }, { passive: false });
-  sigCanvas.addEventListener("touchmove", function(e) { e.preventDefault(); if (!sigDrawing) return; var p = pos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); }, { passive: false });
-  sigCanvas.addEventListener("touchend", function() { sigDrawing = false; });
+document.getElementById("submitBtn").addEventListener("click", function() {
+  submitForm();
+});
+
+function showError(msg) {
+  var el = document.getElementById("errorMsg");
+  el.textContent = msg;
+  el.style.display = "block";
+  el.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-function clearSig() { sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height); }
-
-function isSigEmpty() {
-  var d = sigCtx.getImageData(0, 0, sigCanvas.width, sigCanvas.height).data;
-  for (var i = 0; i < d.length; i++) { if (d[i] !== 0) return false; }
-  return true;
+function hideError() {
+  var el = document.getElementById("errorMsg");
+  el.style.display = "none";
 }
 
 function getChecked(cls) {
@@ -397,23 +376,13 @@ function getChecked(cls) {
 }
 
 function getRisk(name) {
-  var el = document.querySelector("input[name=" + name + "]:checked");
+  var el = document.querySelector("input[name='" + name + "']:checked");
   return el ? el.value : "";
-}
-
-function showError(msg) {
-  var el = document.getElementById("errorMsg");
-  el.textContent = msg;
-  el.classList.add("show");
-  el.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-function hideError() {
-  document.getElementById("errorMsg").classList.remove("show");
 }
 
 function submitForm() {
   hideError();
+
   var addr  = document.getElementById("siteAddress").value.trim();
   var date  = document.getElementById("dateField").value;
   var sup   = document.getElementById("supervisorName").value.trim();
@@ -430,14 +399,16 @@ function submitForm() {
   var selPPE = getChecked("ppe-cb");
 
   if (!selHaz.length) { showError("Please check at least one hazard in Step 1."); return; }
-  if (!selCtl.length) { showError("Please check at least one control measure in Step 2."); return; }
+  if (!selCtl.length) { showError("Please check at least one control in Step 2."); return; }
   if (!selPPE.length) { showError("Please check at least one PPE item in Step 3."); return; }
-  if (!prnt)          { showError("Please enter your printed name."); return; }
-  if (isSigEmpty())   { showError("Please draw your signature before submitting."); return; }
+  if (!prnt)          { showError("Please type your full name in Step 4 to acknowledge the FLHA."); return; }
 
   var wNodes = document.querySelectorAll(".wname");
   var workers = [];
-  for (var i = 0; i < wNodes.length; i++) { var v = wNodes[i].value.trim(); if (v) workers.push(v); }
+  for (var i = 0; i < wNodes.length; i++) {
+    var v = wNodes[i].value.trim();
+    if (v) workers.push(v);
+  }
 
   var weather  = document.getElementById("weather").value    || "Not specified";
   var otherHaz = document.getElementById("otherHazards").value.trim();
@@ -448,21 +419,22 @@ function submitForm() {
   var emergPh  = document.getElementById("emergPhone").value.trim() || "Not specified";
   var now      = new Date().toLocaleString("en-CA", { dateStyle: "full", timeStyle: "short" });
 
-  var riskNames = ["r_falls","r_tools","r_struck","r_elec","r_excav","r_lift","r_scaffold","r_chem","r_fire","r_conf","r_veh","r_wx","r_slip","r_noise","r_ovhd","r_pinch"];
-  var riskLabels = ["Falls from height","Power tools / equipment","Struck by object","Electrical / live wires","Excavation / trenching","Manual lifting / strain","Scaffolding / ladders","Chemical / dust exposure","Fire / hot work","Confined space","Mobile equipment","Adverse weather","Slips / trips (ground)","Noise / vibration","Overhead work","Pinch / crush points"];
+  var riskMap = [
+    ["r_falls","Falls from height"],["r_tools","Power tools / equipment"],
+    ["r_struck","Struck by object"],["r_elec","Electrical / live wires"],
+    ["r_excav","Excavation / trenching"],["r_lift","Manual lifting / strain"],
+    ["r_scaffold","Scaffolding / ladders"],["r_chem","Chemical / dust exposure"],
+    ["r_fire","Fire / hot work"],["r_conf","Confined space"],
+    ["r_veh","Mobile equipment"],["r_wx","Adverse weather"],
+    ["r_slip","Slips / trips (ground)"],["r_noise","Noise / vibration"],
+    ["r_ovhd","Overhead work"],["r_pinch","Pinch / crush points"]
+  ];
   var riskLines = "";
-  for (var j = 0; j < riskNames.length; j++) {
-    var rv = getRisk(riskNames[j]);
-    if (rv) riskLines += "  " + riskLabels[j] + ": " + (rv === "L" ? "LOW" : rv === "M" ? "MEDIUM" : "HIGH") + "
+  for (var j = 0; j < riskMap.length; j++) {
+    var rv = getRisk(riskMap[j][0]);
+    if (rv) riskLines += "  " + riskMap[j][1] + ": " + (rv === "L" ? "LOW" : rv === "M" ? "MEDIUM" : "HIGH") + "
 ";
   }
-
-  var hazLines = selHaz.map(function(h) { return "  [x] " + h; }).join("
-");
-  var ctlLines = selCtl.map(function(c) { return "  [x] " + c; }).join("
-");
-  var ppeLines = selPPE.map(function(p) { return "  [x] " + p; }).join("
-");
 
   var rec = "============================================
 "
@@ -477,7 +449,7 @@ function submitForm() {
 "
     + "DATE:           " + date + "
 "
-    + "TIME COMPLETED: " + now + "
+    + "TIME SUBMITTED: " + now + "
 "
     + "SITE ADDRESS:   " + addr + "
 "
@@ -500,7 +472,8 @@ function submitForm() {
 "
     + "--------------------------------------------
 "
-    + hazLines + "
+    + selHaz.map(function(h) { return "  [x] " + h; }).join("
+") + "
 "
     + (otherHaz ? "  [x] Other: " + otherHaz + "
 " : "") + "
@@ -516,7 +489,8 @@ function submitForm() {
 "
     + "--------------------------------------------
 "
-    + ctlLines + "
+    + selCtl.map(function(c) { return "  [x] " + c; }).join("
+") + "
 "
     + (ctlNotes ? "  Additional: " + ctlNotes + "
 " : "") + "
@@ -527,7 +501,8 @@ function submitForm() {
 "
     + "--------------------------------------------
 "
-    + ppeLines + "
+    + selPPE.map(function(p) { return "  [x] " + p; }).join("
+") + "
 
 "
     + "--------------------------------------------
@@ -560,11 +535,11 @@ function submitForm() {
     + "per Alberta OH&S Act, Regulation and Code.
 
 "
-    + "Name (print): " + prnt + "
+    + "Acknowledged by: " + prnt + "
 "
-    + "Signed:       [Digital signature on file]
+    + "Date / Time:     " + now + "
 "
-    + "Date / Time:  " + now + "
+    + "Method:          Electronic acknowledgment
 
 "
     + "============================================
@@ -577,38 +552,43 @@ function submitForm() {
 
   document.getElementById("recText").textContent = rec;
   var rs = document.getElementById("resultSection");
-  rs.classList.add("show");
+  rs.style.display = "block";
   rs.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function copyRec() {
   var t = document.getElementById("recText").textContent;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(t).then(function() { alert("Record copied to clipboard!"); }).catch(function() { fallbackCopy(t); });
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(function() {
+      alert("Record copied to clipboard!");
+    }).catch(function() { fallbackCopy(t); });
   } else { fallbackCopy(t); }
 }
 
 function fallbackCopy(t) {
   var ta = document.createElement("textarea");
   ta.value = t;
+  ta.style.position = "fixed";
+  ta.style.top = "0";
+  ta.style.left = "0";
+  ta.style.opacity = "0";
   document.body.appendChild(ta);
+  ta.focus();
   ta.select();
-  document.execCommand("copy");
+  try { document.execCommand("copy"); alert("Record copied!"); }
+  catch(e) { alert("Could not copy automatically. Please select the text above and copy manually."); }
   document.body.removeChild(ta);
-  alert("Record copied!");
 }
 
 function printRec() {
   var t = document.getElementById("recText").textContent;
   var w = window.open("", "_blank");
+  if (!w) { alert("Please allow pop-ups for this site, then try again."); return; }
   var safe = t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-  w.document.write("<html><head><title>JBD FLHA Record</title><style>body{font-family:monospace;font-size:13px;padding:2cm;white-space:pre-wrap;line-height:1.7}@media print{body{padding:1cm}}</style></head><body>" + safe + "</body></html>");
+  w.document.write("<html><head><title>JBD FLHA Record</title><style>body{font-family:'Courier New',monospace;font-size:13px;padding:2cm;white-space:pre-wrap;line-height:1.7}@media print{body{padding:1cm}}</style></head><body>" + safe + "</body></html>");
   w.document.close();
-  setTimeout(function() { w.print(); }, 300);
+  setTimeout(function() { w.print(); }, 400);
 }
-
-document.getElementById("dateField").value = new Date().toISOString().split("T")[0];
-initSig();
 </script>
 </body>
 </html>
