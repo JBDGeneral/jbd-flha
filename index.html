@@ -32,9 +32,9 @@ textarea{min-height:60px;resize:vertical}
 .hint{font-size:12px;color:#888;margin-bottom:10px}
 .wrows{display:flex;flex-direction:column;gap:8px}
 .cb-list{display:flex;flex-direction:column}
-.cb-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0;cursor:pointer}
+.cb-row{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0}
 .cb-row:last-child{border-bottom:none}
-.cb-row input[type=checkbox]{width:24px;height:24px;flex-shrink:0;margin-top:1px;accent-color:#2d6aad;cursor:pointer}
+.cb-row input[type=checkbox]{width:24px;height:24px;flex-shrink:0;margin-top:1px;accent-color:#2d6aad}
 .cb-row span{font-size:15px;line-height:1.4;padding-top:3px}
 .rtable{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
 .rtable th{background:#f7f9fb;border:1px solid #ddd;padding:6px 8px;font-size:11px;font-weight:bold;color:#666;text-transform:uppercase}
@@ -43,27 +43,17 @@ textarea{min-height:60px;resize:vertical}
 .rtable td{border:1px solid #ddd;padding:8px;vertical-align:middle}
 .rtable td:not(:first-child){text-align:center}
 .rtable tr:nth-child(even) td{background:#fafafa}
-.rtable input[type=radio]{width:20px;height:20px;accent-color:#2d6aad;cursor:pointer}
+.rtable input[type=radio]{width:20px;height:20px;accent-color:#2d6aad}
 .ack{background:#e8f2fb;border:1px solid #90c4f0;border-radius:8px;padding:14px;margin-bottom:4px}
 .ack p{font-size:14px;color:#1e3a5f;line-height:1.7;margin-bottom:10px}
 .ack-stmt{font-size:13px;color:#333;font-style:italic;background:#fff;border:1px solid #90c4f0;border-radius:6px;padding:10px 12px;margin-bottom:12px;line-height:1.6}
 .ack label{font-size:11px;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:5px}
 .ack input[type=text]{border:2px solid #2d6aad;font-size:16px;font-weight:bold;color:#1e3a5f;padding:12px}
 .ack-note{font-size:12px;color:#666;font-style:italic;margin-top:8px}
-.err{background:#fff0f0;border:2px solid #e00;border-radius:8px;padding:12px 16px;font-size:15px;font-weight:bold;color:#c00;margin-bottom:14px;display:none}
 .sub-btn{display:block;width:100%;padding:18px;font-size:18px;font-weight:bold;background:#1e3a5f;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:Arial,Helvetica,sans-serif;text-align:center;margin-bottom:10px}
 .sub-btn:hover{background:#2d6aad}
-.sub-btn:disabled{background:#999;cursor:not-allowed}
 .fnote{font-size:11px;color:#999;text-align:center;line-height:1.6;margin-bottom:20px}
-.result{background:#fff;border-radius:10px;border:2px solid #2b8a3e;margin-top:14px;overflow:hidden;display:none}
-.result-hd{background:#2b8a3e;padding:14px 16px}
-.result-hd h2{color:#fff;font-size:16px;font-weight:bold}
-.result-bd{padding:14px 16px}
-.recbox{background:#f7f9fb;border:1px solid #dde;border-radius:6px;padding:12px;font-family:"Courier New",monospace;font-size:11px;line-height:1.7;white-space:pre-wrap;color:#222;margin-bottom:12px;max-height:400px;overflow-y:auto}
-.rbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rbtn{padding:13px;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;border:none;background:#2d6aad;color:#fff;font-family:Arial,Helvetica,sans-serif;width:100%}
-.sending{background:#e8f2fb;border:1px solid #90c4f0;border-radius:8px;padding:14px;text-align:center;font-size:15px;color:#1e3a5f;display:none;margin-bottom:14px}
-@media(max-width:480px){.g2{grid-template-columns:1fr}.rbtns{grid-template-columns:1fr}}
+@media(max-width:480px){.g2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -77,24 +67,29 @@ textarea{min-height:60px;resize:vertical}
 </header>
 
 <div class="wrap">
-<div class="err" id="err"></div>
-<div class="sending" id="sending">Submitting your FLHA... please wait...</div>
+
+<!-- THE ENTIRE FORM POSTS DIRECTLY TO FORMSPREE - NO JAVASCRIPT NEEDED -->
+<form action="https://formspree.io/f/xeeddnew" method="POST">
+
+<!-- Formspree redirect back to the form after submission -->
+<input type="hidden" name="_next" value="https://jbdgeneral.github.io/jbd-flha/thanks.html">
+<input type="hidden" name="_subject" value="New JBD FLHA Submission">
 
 <!-- JOB INFO -->
 <div class="card">
   <div class="card-hd"><h2>Job Information</h2></div>
   <div class="card-bd">
-    <div class="g1 f"><label>Site address <span class="req">*</span></label><input type="text" id="addr" placeholder="123 Example Rd, Calgary, AB"></div>
+    <div class="g1 f"><label>Site address <span class="req">*</span></label><input type="text" name="Site_Address" placeholder="123 Example Rd, Calgary, AB" required></div>
     <div class="g2">
-      <div class="f"><label>Date <span class="req">*</span></label><input type="date" id="dt"></div>
+      <div class="f"><label>Date <span class="req">*</span></label><input type="date" name="Date" id="dt" required></div>
       <div class="f"><label>Weather</label>
-        <select id="wx"><option value="">Select...</option><option>Clear / sunny</option><option>Overcast</option><option>Rain / wet</option><option>Snow / ice</option><option>Wind (25+ km/h)</option><option>Extreme cold (below -20C)</option><option>Extreme heat (above 30C)</option></select>
+        <select name="Weather"><option value="">Select...</option><option>Clear / sunny</option><option>Overcast</option><option>Rain / wet</option><option>Snow / ice</option><option>Wind (25+ km/h)</option><option>Extreme cold (below -20C)</option><option>Extreme heat (above 30C)</option></select>
       </div>
     </div>
     <div class="g2">
-      <div class="f"><label>Supervisor <span class="req">*</span></label><input type="text" id="sup" placeholder="Full name"></div>
+      <div class="f"><label>Supervisor <span class="req">*</span></label><input type="text" name="Supervisor" placeholder="Full name" required></div>
       <div class="f"><label>Trade <span class="req">*</span></label>
-        <select id="trade"><option value="">Select trade...</option><option>Framing</option><option>Foundation / concrete</option><option>Roofing</option><option>Electrical</option><option>Plumbing</option><option>HVAC / mechanical</option><option>Insulation</option><option>Drywall</option><option>Flooring</option><option>Painting / finishing</option><option>Landscaping / exterior</option><option>General labour</option><option>Other</option></select>
+        <select name="Trade" required><option value="">Select trade...</option><option>Framing</option><option>Foundation / concrete</option><option>Roofing</option><option>Electrical</option><option>Plumbing</option><option>HVAC / mechanical</option><option>Insulation</option><option>Drywall</option><option>Flooring</option><option>Painting / finishing</option><option>Landscaping / exterior</option><option>General labour</option><option>Other</option></select>
       </div>
     </div>
   </div>
@@ -105,14 +100,14 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-hd"><h2>Workers on Site Today</h2></div>
   <div class="card-bd">
     <div class="wrows">
-      <div class="f"><label>Worker 1</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 2</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 3</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 4</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 5</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 6</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 7</label><input type="text" class="wn" placeholder="Full name"></div>
-      <div class="f"><label>Worker 8</label><input type="text" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 1</label><input type="text" name="Worker_1" placeholder="Full name"></div>
+      <div class="f"><label>Worker 2</label><input type="text" name="Worker_2" placeholder="Full name"></div>
+      <div class="f"><label>Worker 3</label><input type="text" name="Worker_3" placeholder="Full name"></div>
+      <div class="f"><label>Worker 4</label><input type="text" name="Worker_4" placeholder="Full name"></div>
+      <div class="f"><label>Worker 5</label><input type="text" name="Worker_5" placeholder="Full name"></div>
+      <div class="f"><label>Worker 6</label><input type="text" name="Worker_6" placeholder="Full name"></div>
+      <div class="f"><label>Worker 7</label><input type="text" name="Worker_7" placeholder="Full name"></div>
+      <div class="f"><label>Worker 8</label><input type="text" name="Worker_8" placeholder="Full name"></div>
     </div>
   </div>
 </div>
@@ -123,46 +118,46 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-bd">
     <p class="hint">Check all hazards present for today's tasks</p>
     <div class="cb-list">
-      <label class="cb-row"><input type="checkbox" class="hc" value="Falls from height (above 1.2m)"><span>Falls from height (above 1.2m)</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Power tools and equipment"><span>Power tools and equipment</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Struck by object"><span>Struck by object</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Electrical / live wires"><span>Electrical / live wires</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Excavation or trenching"><span>Excavation or trenching</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Manual lifting / ergonomic strain"><span>Manual lifting / ergonomic strain</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Scaffolding or ladders"><span>Scaffolding or ladders</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Chemical or dust exposure"><span>Chemical or dust exposure</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Fire / hot work"><span>Fire / hot work</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Confined space"><span>Confined space</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Mobile equipment / vehicles"><span>Mobile equipment / vehicles</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Adverse weather or temperature extremes"><span>Adverse weather or temperature extremes</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Slips, trips and falls (ground level)"><span>Slips, trips and falls (ground level)</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Noise or vibration"><span>Noise or vibration</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Overhead work"><span>Overhead work</span></label>
-      <label class="cb-row"><input type="checkbox" class="hc" value="Pinch or crush points"><span>Pinch or crush points</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Falls from height (above 1.2m)"><span>Falls from height (above 1.2m)</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Power tools and equipment"><span>Power tools and equipment</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Struck by object"><span>Struck by object</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Electrical / live wires"><span>Electrical / live wires</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Excavation or trenching"><span>Excavation or trenching</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Manual lifting / ergonomic strain"><span>Manual lifting / ergonomic strain</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Scaffolding or ladders"><span>Scaffolding or ladders</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Chemical or dust exposure"><span>Chemical or dust exposure</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Fire / hot work"><span>Fire / hot work</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Confined space"><span>Confined space</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Mobile equipment / vehicles"><span>Mobile equipment / vehicles</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Adverse weather or temperature extremes"><span>Adverse weather or temperature extremes</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Slips, trips and falls (ground level)"><span>Slips, trips and falls (ground level)</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Noise or vibration"><span>Noise or vibration</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Overhead work"><span>Overhead work</span></label>
+      <label class="cb-row"><input type="checkbox" name="Hazard" value="Pinch or crush points"><span>Pinch or crush points</span></label>
     </div>
     <div class="hr"></div>
-    <div class="f"><label>Other hazards not listed</label><textarea id="ohaz" placeholder="Describe any additional hazards..."></textarea></div>
+    <div class="f"><label>Other hazards not listed</label><textarea name="Other_Hazards" placeholder="Describe any additional hazards..."></textarea></div>
     <div class="hr"></div>
     <p class="hint"><strong>Risk level</strong> — rate each hazard you checked. L = Low &nbsp; M = Medium &nbsp; H = High</p>
     <table class="rtable">
       <thead><tr><th style="width:52%">Hazard</th><th>L</th><th>M</th><th>H</th></tr></thead>
       <tbody>
-        <tr><td>Falls from height</td><td><input type="radio" name="rf" value="L"></td><td><input type="radio" name="rf" value="M"></td><td><input type="radio" name="rf" value="H"></td></tr>
-        <tr><td>Power tools</td><td><input type="radio" name="rt" value="L"></td><td><input type="radio" name="rt" value="M"></td><td><input type="radio" name="rt" value="H"></td></tr>
-        <tr><td>Struck by object</td><td><input type="radio" name="rs" value="L"></td><td><input type="radio" name="rs" value="M"></td><td><input type="radio" name="rs" value="H"></td></tr>
-        <tr><td>Electrical</td><td><input type="radio" name="re" value="L"></td><td><input type="radio" name="re" value="M"></td><td><input type="radio" name="re" value="H"></td></tr>
-        <tr><td>Excavation</td><td><input type="radio" name="rex" value="L"></td><td><input type="radio" name="rex" value="M"></td><td><input type="radio" name="rex" value="H"></td></tr>
-        <tr><td>Manual lifting</td><td><input type="radio" name="rl" value="L"></td><td><input type="radio" name="rl" value="M"></td><td><input type="radio" name="rl" value="H"></td></tr>
-        <tr><td>Scaffolding / ladders</td><td><input type="radio" name="rsc" value="L"></td><td><input type="radio" name="rsc" value="M"></td><td><input type="radio" name="rsc" value="H"></td></tr>
-        <tr><td>Chemical / dust</td><td><input type="radio" name="rc" value="L"></td><td><input type="radio" name="rc" value="M"></td><td><input type="radio" name="rc" value="H"></td></tr>
-        <tr><td>Fire / hot work</td><td><input type="radio" name="rfi" value="L"></td><td><input type="radio" name="rfi" value="M"></td><td><input type="radio" name="rfi" value="H"></td></tr>
-        <tr><td>Confined space</td><td><input type="radio" name="rco" value="L"></td><td><input type="radio" name="rco" value="M"></td><td><input type="radio" name="rco" value="H"></td></tr>
-        <tr><td>Mobile equipment</td><td><input type="radio" name="rv" value="L"></td><td><input type="radio" name="rv" value="M"></td><td><input type="radio" name="rv" value="H"></td></tr>
-        <tr><td>Adverse weather</td><td><input type="radio" name="rw" value="L"></td><td><input type="radio" name="rw" value="M"></td><td><input type="radio" name="rw" value="H"></td></tr>
-        <tr><td>Slips / trips</td><td><input type="radio" name="rsl" value="L"></td><td><input type="radio" name="rsl" value="M"></td><td><input type="radio" name="rsl" value="H"></td></tr>
-        <tr><td>Noise / vibration</td><td><input type="radio" name="rn" value="L"></td><td><input type="radio" name="rn" value="M"></td><td><input type="radio" name="rn" value="H"></td></tr>
-        <tr><td>Overhead work</td><td><input type="radio" name="ro" value="L"></td><td><input type="radio" name="ro" value="M"></td><td><input type="radio" name="ro" value="H"></td></tr>
-        <tr><td>Pinch / crush</td><td><input type="radio" name="rp" value="L"></td><td><input type="radio" name="rp" value="M"></td><td><input type="radio" name="rp" value="H"></td></tr>
+        <tr><td>Falls from height</td><td><input type="radio" name="Risk_Falls" value="LOW"></td><td><input type="radio" name="Risk_Falls" value="MEDIUM"></td><td><input type="radio" name="Risk_Falls" value="HIGH"></td></tr>
+        <tr><td>Power tools</td><td><input type="radio" name="Risk_Tools" value="LOW"></td><td><input type="radio" name="Risk_Tools" value="MEDIUM"></td><td><input type="radio" name="Risk_Tools" value="HIGH"></td></tr>
+        <tr><td>Struck by object</td><td><input type="radio" name="Risk_Struck" value="LOW"></td><td><input type="radio" name="Risk_Struck" value="MEDIUM"></td><td><input type="radio" name="Risk_Struck" value="HIGH"></td></tr>
+        <tr><td>Electrical</td><td><input type="radio" name="Risk_Electrical" value="LOW"></td><td><input type="radio" name="Risk_Electrical" value="MEDIUM"></td><td><input type="radio" name="Risk_Electrical" value="HIGH"></td></tr>
+        <tr><td>Excavation</td><td><input type="radio" name="Risk_Excavation" value="LOW"></td><td><input type="radio" name="Risk_Excavation" value="MEDIUM"></td><td><input type="radio" name="Risk_Excavation" value="HIGH"></td></tr>
+        <tr><td>Manual lifting</td><td><input type="radio" name="Risk_Lifting" value="LOW"></td><td><input type="radio" name="Risk_Lifting" value="MEDIUM"></td><td><input type="radio" name="Risk_Lifting" value="HIGH"></td></tr>
+        <tr><td>Scaffolding / ladders</td><td><input type="radio" name="Risk_Scaffold" value="LOW"></td><td><input type="radio" name="Risk_Scaffold" value="MEDIUM"></td><td><input type="radio" name="Risk_Scaffold" value="HIGH"></td></tr>
+        <tr><td>Chemical / dust</td><td><input type="radio" name="Risk_Chemical" value="LOW"></td><td><input type="radio" name="Risk_Chemical" value="MEDIUM"></td><td><input type="radio" name="Risk_Chemical" value="HIGH"></td></tr>
+        <tr><td>Fire / hot work</td><td><input type="radio" name="Risk_Fire" value="LOW"></td><td><input type="radio" name="Risk_Fire" value="MEDIUM"></td><td><input type="radio" name="Risk_Fire" value="HIGH"></td></tr>
+        <tr><td>Confined space</td><td><input type="radio" name="Risk_Confined" value="LOW"></td><td><input type="radio" name="Risk_Confined" value="MEDIUM"></td><td><input type="radio" name="Risk_Confined" value="HIGH"></td></tr>
+        <tr><td>Mobile equipment</td><td><input type="radio" name="Risk_Mobile" value="LOW"></td><td><input type="radio" name="Risk_Mobile" value="MEDIUM"></td><td><input type="radio" name="Risk_Mobile" value="HIGH"></td></tr>
+        <tr><td>Adverse weather</td><td><input type="radio" name="Risk_Weather" value="LOW"></td><td><input type="radio" name="Risk_Weather" value="MEDIUM"></td><td><input type="radio" name="Risk_Weather" value="HIGH"></td></tr>
+        <tr><td>Slips / trips</td><td><input type="radio" name="Risk_Slips" value="LOW"></td><td><input type="radio" name="Risk_Slips" value="MEDIUM"></td><td><input type="radio" name="Risk_Slips" value="HIGH"></td></tr>
+        <tr><td>Noise / vibration</td><td><input type="radio" name="Risk_Noise" value="LOW"></td><td><input type="radio" name="Risk_Noise" value="MEDIUM"></td><td><input type="radio" name="Risk_Noise" value="HIGH"></td></tr>
+        <tr><td>Overhead work</td><td><input type="radio" name="Risk_Overhead" value="LOW"></td><td><input type="radio" name="Risk_Overhead" value="MEDIUM"></td><td><input type="radio" name="Risk_Overhead" value="HIGH"></td></tr>
+        <tr><td>Pinch / crush</td><td><input type="radio" name="Risk_Pinch" value="LOW"></td><td><input type="radio" name="Risk_Pinch" value="MEDIUM"></td><td><input type="radio" name="Risk_Pinch" value="HIGH"></td></tr>
       </tbody>
     </table>
   </div>
@@ -174,21 +169,21 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-bd">
     <p class="hint">Check all control measures being used today</p>
     <div class="cb-list">
-      <label class="cb-row"><input type="checkbox" class="cc" value="Barriers or barricades in place"><span>Barriers or barricades in place</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Lockout / tag-out applied"><span>Lockout / tag-out applied</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Buddy system in place"><span>Buddy system in place</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Toolbox talk completed"><span>Toolbox talk completed</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Site housekeeping done before work"><span>Site housekeeping done before work</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Spotters assigned"><span>Spotters assigned</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Guardrails or fall arrest in place"><span>Guardrails or fall arrest in place</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Ventilation in place"><span>Ventilation in place</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Safety signage posted"><span>Safety signage posted</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="First aid kit confirmed and accessible"><span>First aid kit confirmed and accessible</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Workers trained and certified for tasks"><span>Workers trained and certified for tasks</span></label>
-      <label class="cb-row"><input type="checkbox" class="cc" value="Equipment inspected before use"><span>Equipment inspected before use</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Barriers or barricades in place"><span>Barriers or barricades in place</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Lockout / tag-out applied"><span>Lockout / tag-out applied</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Buddy system in place"><span>Buddy system in place</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Toolbox talk completed"><span>Toolbox talk completed</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Site housekeeping done before work"><span>Site housekeeping done before work</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Spotters assigned"><span>Spotters assigned</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Guardrails or fall arrest in place"><span>Guardrails or fall arrest in place</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Ventilation in place"><span>Ventilation in place</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Safety signage posted"><span>Safety signage posted</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="First aid kit confirmed and accessible"><span>First aid kit confirmed and accessible</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Workers trained and certified for tasks"><span>Workers trained and certified for tasks</span></label>
+      <label class="cb-row"><input type="checkbox" name="Control" value="Equipment inspected before use"><span>Equipment inspected before use</span></label>
     </div>
     <div class="hr"></div>
-    <div class="f"><label>Additional controls / notes</label><textarea id="cnotes" placeholder="Any additional controls..."></textarea></div>
+    <div class="f"><label>Additional controls / notes</label><textarea name="Control_Notes" placeholder="Any additional controls..."></textarea></div>
   </div>
 </div>
 
@@ -198,16 +193,16 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-bd">
     <p class="hint">Check all PPE being worn on site</p>
     <div class="cb-list">
-      <label class="cb-row"><input type="checkbox" class="pc" value="Hard hat"><span>Hard hat</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Hi-visibility vest"><span>Hi-visibility vest</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Safety boots (CSA approved)"><span>Safety boots (CSA approved)</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Gloves"><span>Gloves</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Safety glasses or goggles"><span>Safety glasses or goggles</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Fall arrest harness"><span>Fall arrest harness</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Respirator or dust mask"><span>Respirator or dust mask</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Ear protection"><span>Ear protection</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Face shield"><span>Face shield</span></label>
-      <label class="cb-row"><input type="checkbox" class="pc" value="Knee pads"><span>Knee pads</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Hard hat"><span>Hard hat</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Hi-visibility vest"><span>Hi-visibility vest</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Safety boots (CSA approved)"><span>Safety boots (CSA approved)</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Gloves"><span>Gloves</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Safety glasses or goggles"><span>Safety glasses or goggles</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Fall arrest harness"><span>Fall arrest harness</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Respirator or dust mask"><span>Respirator or dust mask</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Ear protection"><span>Ear protection</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Face shield"><span>Face shield</span></label>
+      <label class="cb-row"><input type="checkbox" name="PPE" value="Knee pads"><span>Knee pads</span></label>
     </div>
   </div>
 </div>
@@ -217,13 +212,13 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-hd"><h2>Emergency Information</h2></div>
   <div class="card-bd">
     <div class="g2">
-      <div class="f"><label>Nearest hospital</label><input type="text" id="hosp" placeholder="e.g. Peter Lougheed"></div>
-      <div class="f"><label>First aid kit location</label><input type="text" id="faid" placeholder="e.g. Supervisor's truck"></div>
+      <div class="f"><label>Nearest hospital</label><input type="text" name="Hospital" placeholder="e.g. Peter Lougheed"></div>
+      <div class="f"><label>First aid kit location</label><input type="text" name="First_Aid_Kit" placeholder="e.g. Supervisor's truck"></div>
     </div>
     <div class="hr"></div>
     <div class="g2">
-      <div class="f"><label>Muster point</label><input type="text" id="muster" placeholder="e.g. Front of lot"></div>
-      <div class="f"><label>Emergency contact #</label><input type="tel" id="ephone" placeholder="403-xxx-xxxx"></div>
+      <div class="f"><label>Muster point</label><input type="text" name="Muster_Point" placeholder="e.g. Front of lot"></div>
+      <div class="f"><label>Emergency contact #</label><input type="tel" name="Emergency_Contact" placeholder="403-xxx-xxxx"></div>
     </div>
   </div>
 </div>
@@ -236,189 +231,20 @@ textarea{min-height:60px;resize:vertical}
       <p>By typing your full name below and clicking Submit, you electronically acknowledge the following:</p>
       <div class="ack-stmt">"I confirm that I have identified the hazards listed above, that all workers on site today have been informed of these hazards and the controls in place, and that all workers are competent to perform today's work safely in accordance with the Alberta OH&amp;S Act, Regulation and Code."</div>
       <label>Type your full name to acknowledge <span class="req">*</span></label>
-      <input type="text" id="pname" placeholder="Type your full name here">
-      <p class="ack-note">Typing your name constitutes your electronic acknowledgment. Date and time are automatically recorded and saved.</p>
+      <input type="text" name="Acknowledged_By" placeholder="Type your full name here" required>
+      <p class="ack-note">Typing your name constitutes your electronic acknowledgment. Date and time are automatically recorded.</p>
     </div>
   </div>
 </div>
 
-<button class="sub-btn" id="subBtn" onclick="doSubmit()">Submit FLHA</button>
+<button type="submit" class="sub-btn">Submit FLHA</button>
 <p class="fnote">Alberta OH&amp;S compliant &bull; Records saved automatically &bull; JBD Construction Ltd.</p>
 
-<!-- RESULT shown after successful submission -->
-<div class="result" id="result">
-  <div class="result-hd"><h2>&#10003; FLHA Submitted and Saved</h2></div>
-  <div class="result-bd">
-    <p style="font-size:14px;color:#2b8a3e;font-weight:bold;margin-bottom:8px">Your FLHA has been recorded. A copy is shown below.</p>
-    <p style="font-size:13px;color:#555;margin-bottom:12px">Use Print / Save PDF to keep a personal copy, or Copy text to share via email or WhatsApp.</p>
-    <div class="recbox" id="recbox"></div>
-    <div class="rbtns">
-      <button class="rbtn" onclick="doCopy()">Copy text</button>
-      <button class="rbtn" onclick="doPrint()">Print / Save PDF</button>
-    </div>
-  </div>
-</div>
-
+</form>
 </div>
 
 <script>
 document.getElementById("dt").value = new Date().toISOString().split("T")[0];
-
-function doSubmit() {
-  var err = document.getElementById("err");
-  err.style.display = "none";
-
-  function v(id){ return document.getElementById(id).value.trim(); }
-  function checked(cls){ return Array.from(document.querySelectorAll("."+cls+":checked")).map(function(x){return x.value;}); }
-  function radio(n){ var el=document.querySelector("input[name='"+n+"']:checked"); return el?el.value:""; }
-
-  var addr=v("addr"), dt=v("dt"), sup=v("sup"), trade=v("trade"), pname=v("pname");
-  var haz=checked("hc"), ctl=checked("cc"), ppe=checked("pc");
-
-  if(!addr){err.textContent="Please enter the site address.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!dt){err.textContent="Please select the date.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!sup){err.textContent="Please enter the supervisor name.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!trade){err.textContent="Please select the trade.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!haz.length){err.textContent="Please check at least one hazard in Step 1.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!ctl.length){err.textContent="Please check at least one control in Step 2.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!ppe.length){err.textContent="Please check at least one PPE item in Step 3.";err.style.display="block";window.scrollTo(0,0);return;}
-  if(!pname){err.textContent="Please type your full name in Step 4.";err.style.display="block";window.scrollTo(0,0);return;}
-
-  var workers=Array.from(document.querySelectorAll(".wn")).map(function(x){return x.value.trim();}).filter(Boolean);
-  var now=new Date().toLocaleString("en-CA",{dateStyle:"full",timeStyle:"short"});
-  var wx=v("wx")||"Not specified";
-  var ohaz=v("ohaz"), cn=v("cnotes");
-  var hosp=v("hosp")||"Not specified", faid=v("faid")||"Not specified";
-  var muster=v("muster")||"Not specified", ep=v("ephone")||"Not specified";
-
-  var rmap=[["rf","Falls from height"],["rt","Power tools"],["rs","Struck by object"],["re","Electrical"],["rex","Excavation"],["rl","Manual lifting"],["rsc","Scaffolding/ladders"],["rc","Chemical/dust"],["rfi","Fire/hot work"],["rco","Confined space"],["rv","Mobile equipment"],["rw","Adverse weather"],["rsl","Slips/trips"],["rn","Noise/vibration"],["ro","Overhead work"],["rp","Pinch/crush"]];
-  var rlines="";
-  rmap.forEach(function(r){var rv=radio(r[0]);if(rv)rlines+="  "+r[1]+": "+(rv=="L"?"LOW":rv=="M"?"MEDIUM":"HIGH")+"\n";});
-
-  var rec=[
-    "============================================",
-    "    JBD CONSTRUCTION LTD.",
-    "    FIELD LEVEL HAZARD ASSESSMENT (FLHA)",
-    "    Alberta OH&S -- New Home Construction",
-    "============================================","",
-    "DATE:           "+dt,
-    "TIME SUBMITTED: "+now,
-    "SITE ADDRESS:   "+addr,
-    "TRADE:          "+trade,
-    "SUPERVISOR:     "+sup,
-    "WEATHER:        "+wx,"",
-    "WORKERS ON SITE:",
-    workers.length?workers.map(function(w){return "  "+w;}).join("\n"):"  (none listed)","",
-    "--------------------------------------------",
-    "STEP 1 -- HAZARDS IDENTIFIED",
-    "--------------------------------------------",
-    haz.map(function(h){return "  [x] "+h;}).join("\n"),
-    ohaz?"  [x] Other: "+ohaz:"",
-    "","RISK RATINGS:",
-    rlines||"  (none rated)","",
-    "--------------------------------------------",
-    "STEP 2 -- CONTROLS IN PLACE",
-    "--------------------------------------------",
-    ctl.map(function(c){return "  [x] "+c;}).join("\n"),
-    cn?"  Additional: "+cn:"","",
-    "--------------------------------------------",
-    "STEP 3 -- PPE REQUIRED",
-    "--------------------------------------------",
-    ppe.map(function(p){return "  [x] "+p;}).join("\n"),"",
-    "--------------------------------------------",
-    "EMERGENCY INFORMATION",
-    "--------------------------------------------",
-    "Nearest hospital:  "+hosp,
-    "First aid kit:     "+faid,
-    "Muster point:      "+muster,
-    "Emergency contact: "+ep,"",
-    "--------------------------------------------",
-    "SUPERVISOR ACKNOWLEDGMENT",
-    "--------------------------------------------",
-    "Acknowledged by: "+pname,
-    "Date / Time:     "+now,
-    "Method:          Electronic acknowledgment","",
-    "============================================",
-    "Records retained minimum 3 years.",
-    "JBD Construction Ltd. | Alberta OH&S",
-    "============================================"
-  ].join("\n");
-
-  // Show sending indicator and disable button
-  document.getElementById("sending").style.display="block";
-  document.getElementById("subBtn").disabled=true;
-  document.getElementById("subBtn").textContent="Submitting...";
-
-  // Build flat data object for Formspree
-  var data = new FormData();
-  data.append("Date", dt);
-  data.append("Time_Submitted", now);
-  data.append("Site_Address", addr);
-  data.append("Trade", trade);
-  data.append("Supervisor", sup);
-  data.append("Weather", wx);
-  data.append("Workers", workers.length ? workers.join(", ") : "None listed");
-  data.append("Hazards", haz.join(", "));
-  data.append("Other_Hazards", ohaz||"None");
-  data.append("Risk_Ratings", rlines||"None rated");
-  data.append("Controls", ctl.join(", "));
-  data.append("Control_Notes", cn||"None");
-  data.append("PPE", ppe.join(", "));
-  data.append("Hospital", hosp);
-  data.append("First_Aid_Kit", faid);
-  data.append("Muster_Point", muster);
-  data.append("Emergency_Contact", ep);
-  data.append("Acknowledged_By", pname);
-  data.append("Full_Record", rec);
-
-  fetch("https://formspree.io/f/xeeddnew", {
-    method: "POST",
-    body: data,
-    headers: { "Accept": "application/json" }
-  })
-  .then(function(response) {
-    document.getElementById("sending").style.display="none";
-    if(response.ok) {
-      document.getElementById("recbox").textContent = rec;
-      var res = document.getElementById("result");
-      res.style.display = "block";
-      res.scrollIntoView({behavior:"smooth"});
-      document.getElementById("subBtn").textContent = "Submitted!";
-    } else {
-      document.getElementById("subBtn").disabled = false;
-      document.getElementById("subBtn").textContent = "Submit FLHA";
-      err.textContent = "Submission failed. Please check your connection and try again.";
-      err.style.display = "block";
-      window.scrollTo(0,0);
-    }
-  })
-  .catch(function() {
-    document.getElementById("sending").style.display="none";
-    document.getElementById("subBtn").disabled = false;
-    document.getElementById("subBtn").textContent = "Submit FLHA";
-    err.textContent = "No internet connection. Please check your signal and try again.";
-    err.style.display = "block";
-    window.scrollTo(0,0);
-  });
-}
-
-function doCopy(){
-  var t=document.getElementById("recbox").textContent;
-  if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){alert("Copied!");}).catch(function(){fb(t);});}else{fb(t);}
-}
-function fb(t){
-  var a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;top:0;left:0;opacity:0";
-  document.body.appendChild(a);a.select();
-  try{document.execCommand("copy");alert("Copied!");}catch(e){alert("Please select and copy the text manually.");}
-  document.body.removeChild(a);
-}
-function doPrint(){
-  var t=document.getElementById("recbox").textContent;
-  var w=window.open("","_blank");
-  if(!w){alert("Please allow pop-ups, then try again.");return;}
-  w.document.write("<html><head><title>JBD FLHA</title><style>body{font-family:'Courier New',monospace;font-size:13px;padding:2cm;white-space:pre-wrap;line-height:1.7}@media print{body{padding:1cm}}</style></head><body>"+t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+"</body></html>");
-  w.document.close();setTimeout(function(){w.print();},400);
-}
 </script>
 </body>
 </html>
