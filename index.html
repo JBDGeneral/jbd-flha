@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="JBD FLHA">
 <title>JBD Construction - FLHA</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;background:#f0f4f8;color:#222;font-size:16px}
@@ -50,10 +51,20 @@ textarea{min-height:60px;resize:vertical}
 .ack label{font-size:11px;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:5px}
 .ack input[type=text]{border:2px solid #2d6aad;font-size:16px;font-weight:bold;color:#1e3a5f;padding:12px}
 .ack-note{font-size:12px;color:#666;font-style:italic;margin-top:8px}
+.err{background:#fff0f0;border:2px solid #e00;border-radius:8px;padding:12px 16px;font-size:15px;font-weight:bold;color:#c00;margin-bottom:14px;display:none}
 .sub-btn{display:block;width:100%;padding:18px;font-size:18px;font-weight:bold;background:#1e3a5f;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:Arial,Helvetica,sans-serif;text-align:center;margin-bottom:10px}
 .sub-btn:hover{background:#2d6aad}
+.sub-btn:disabled{background:#999;cursor:not-allowed}
 .fnote{font-size:11px;color:#999;text-align:center;line-height:1.6;margin-bottom:20px}
-@media(max-width:480px){.g2{grid-template-columns:1fr}}
+.sending{background:#e8f2fb;border:1px solid #90c4f0;border-radius:8px;padding:14px;text-align:center;font-size:15px;color:#1e3a5f;display:none;margin-bottom:14px;font-weight:bold}
+.result{background:#fff;border-radius:10px;border:2px solid #2b8a3e;margin-top:14px;overflow:hidden;display:none}
+.result-hd{background:#2b8a3e;padding:14px 16px}
+.result-hd h2{color:#fff;font-size:16px;font-weight:bold}
+.result-bd{padding:14px 16px}
+.recbox{background:#f7f9fb;border:1px solid #dde;border-radius:6px;padding:12px;font-family:"Courier New",monospace;font-size:11px;line-height:1.7;white-space:pre-wrap;color:#222;margin-bottom:12px;max-height:400px;overflow-y:auto}
+.rbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rbtn{padding:13px;border-radius:8px;font-size:14px;font-weight:bold;cursor:pointer;border:none;background:#2d6aad;color:#fff;font-family:Arial,Helvetica,sans-serif;width:100%}
+@media(max-width:480px){.g2{grid-template-columns:1fr}.rbtns{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -67,30 +78,37 @@ textarea{min-height:60px;resize:vertical}
 </header>
 
 <div class="wrap">
+<div class="err" id="err"></div>
+<div class="sending" id="sending">Submitting your FLHA and sending your copy... please wait...</div>
 
-<!-- THE ENTIRE FORM POSTS DIRECTLY TO FORMSPREE - NO JAVASCRIPT NEEDED -->
-<form action="https://formspree.io/f/xeeddnew" method="POST">
+<!-- THE FORM POSTS TO FORMSPREE, EMAILJS SENDS COPY TO WORKER -->
+<form id="flhaForm" action="https://formspree.io/f/xeeddnew" method="POST">
 
-<!-- Formspree redirect back to the form after submission -->
 <input type="hidden" name="_next" value="https://jbdgeneral.github.io/jbd-flha/thanks.html">
 <input type="hidden" name="_subject" value="New JBD FLHA Submission">
+<input type="hidden" name="Full_Record" id="fullRecord">
 
 <!-- JOB INFO -->
 <div class="card">
   <div class="card-hd"><h2>Job Information</h2></div>
   <div class="card-bd">
-    <div class="g1 f"><label>Site address <span class="req">*</span></label><input type="text" name="Site_Address" placeholder="123 Example Rd, Calgary, AB" required></div>
+    <div class="g1 f"><label>Site address <span class="req">*</span></label><input type="text" name="Site_Address" id="addr" placeholder="123 Example Rd, Calgary, AB" required></div>
     <div class="g2">
       <div class="f"><label>Date <span class="req">*</span></label><input type="date" name="Date" id="dt" required></div>
       <div class="f"><label>Weather</label>
-        <select name="Weather"><option value="">Select...</option><option>Clear / sunny</option><option>Overcast</option><option>Rain / wet</option><option>Snow / ice</option><option>Wind (25+ km/h)</option><option>Extreme cold (below -20C)</option><option>Extreme heat (above 30C)</option></select>
+        <select name="Weather" id="wx"><option value="">Select...</option><option>Clear / sunny</option><option>Overcast</option><option>Rain / wet</option><option>Snow / ice</option><option>Wind (25+ km/h)</option><option>Extreme cold (below -20C)</option><option>Extreme heat (above 30C)</option></select>
       </div>
     </div>
     <div class="g2">
-      <div class="f"><label>Supervisor <span class="req">*</span></label><input type="text" name="Supervisor" placeholder="Full name" required></div>
+      <div class="f"><label>Supervisor <span class="req">*</span></label><input type="text" name="Supervisor" id="sup" placeholder="Full name" required></div>
       <div class="f"><label>Trade <span class="req">*</span></label>
-        <select name="Trade" required><option value="">Select trade...</option><option>Framing</option><option>Foundation / concrete</option><option>Roofing</option><option>Electrical</option><option>Plumbing</option><option>HVAC / mechanical</option><option>Insulation</option><option>Drywall</option><option>Flooring</option><option>Painting / finishing</option><option>Landscaping / exterior</option><option>General labour</option><option>Other</option></select>
+        <select name="Trade" id="trade" required><option value="">Select trade...</option><option>Framing</option><option>Foundation / concrete</option><option>Roofing</option><option>Electrical</option><option>Plumbing</option><option>HVAC / mechanical</option><option>Insulation</option><option>Drywall</option><option>Flooring</option><option>Painting / finishing</option><option>Landscaping / exterior</option><option>General labour</option><option>Other</option></select>
       </div>
+    </div>
+    <div class="g1 f">
+      <label>Your email address <span class="req">*</span></label>
+      <input type="email" name="Submitter_Email" id="submitterEmail" placeholder="your@email.com" required>
+      <span style="font-size:11px;color:#888;margin-top:3px">A copy of this completed FLHA will be emailed to you</span>
     </div>
   </div>
 </div>
@@ -100,14 +118,14 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-hd"><h2>Workers on Site Today</h2></div>
   <div class="card-bd">
     <div class="wrows">
-      <div class="f"><label>Worker 1</label><input type="text" name="Worker_1" placeholder="Full name"></div>
-      <div class="f"><label>Worker 2</label><input type="text" name="Worker_2" placeholder="Full name"></div>
-      <div class="f"><label>Worker 3</label><input type="text" name="Worker_3" placeholder="Full name"></div>
-      <div class="f"><label>Worker 4</label><input type="text" name="Worker_4" placeholder="Full name"></div>
-      <div class="f"><label>Worker 5</label><input type="text" name="Worker_5" placeholder="Full name"></div>
-      <div class="f"><label>Worker 6</label><input type="text" name="Worker_6" placeholder="Full name"></div>
-      <div class="f"><label>Worker 7</label><input type="text" name="Worker_7" placeholder="Full name"></div>
-      <div class="f"><label>Worker 8</label><input type="text" name="Worker_8" placeholder="Full name"></div>
+      <div class="f"><label>Worker 1</label><input type="text" name="Worker_1" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 2</label><input type="text" name="Worker_2" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 3</label><input type="text" name="Worker_3" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 4</label><input type="text" name="Worker_4" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 5</label><input type="text" name="Worker_5" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 6</label><input type="text" name="Worker_6" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 7</label><input type="text" name="Worker_7" class="wn" placeholder="Full name"></div>
+      <div class="f"><label>Worker 8</label><input type="text" name="Worker_8" class="wn" placeholder="Full name"></div>
     </div>
   </div>
 </div>
@@ -136,7 +154,7 @@ textarea{min-height:60px;resize:vertical}
       <label class="cb-row"><input type="checkbox" name="Hazard" value="Pinch or crush points"><span>Pinch or crush points</span></label>
     </div>
     <div class="hr"></div>
-    <div class="f"><label>Other hazards not listed</label><textarea name="Other_Hazards" placeholder="Describe any additional hazards..."></textarea></div>
+    <div class="f"><label>Other hazards not listed</label><textarea name="Other_Hazards" id="ohaz" placeholder="Describe any additional hazards..."></textarea></div>
     <div class="hr"></div>
     <p class="hint"><strong>Risk level</strong> — rate each hazard you checked. L = Low &nbsp; M = Medium &nbsp; H = High</p>
     <table class="rtable">
@@ -183,7 +201,7 @@ textarea{min-height:60px;resize:vertical}
       <label class="cb-row"><input type="checkbox" name="Control" value="Equipment inspected before use"><span>Equipment inspected before use</span></label>
     </div>
     <div class="hr"></div>
-    <div class="f"><label>Additional controls / notes</label><textarea name="Control_Notes" placeholder="Any additional controls..."></textarea></div>
+    <div class="f"><label>Additional controls / notes</label><textarea name="Control_Notes" id="cnotes" placeholder="Any additional controls..."></textarea></div>
   </div>
 </div>
 
@@ -212,13 +230,13 @@ textarea{min-height:60px;resize:vertical}
   <div class="card-hd"><h2>Emergency Information</h2></div>
   <div class="card-bd">
     <div class="g2">
-      <div class="f"><label>Nearest hospital</label><input type="text" name="Hospital" placeholder="e.g. Peter Lougheed"></div>
-      <div class="f"><label>First aid kit location</label><input type="text" name="First_Aid_Kit" placeholder="e.g. Supervisor's truck"></div>
+      <div class="f"><label>Nearest hospital</label><input type="text" name="Hospital" id="hosp" placeholder="e.g. Peter Lougheed"></div>
+      <div class="f"><label>First aid kit location</label><input type="text" name="First_Aid_Kit" id="faid" placeholder="e.g. Supervisor's truck"></div>
     </div>
     <div class="hr"></div>
     <div class="g2">
-      <div class="f"><label>Muster point</label><input type="text" name="Muster_Point" placeholder="e.g. Front of lot"></div>
-      <div class="f"><label>Emergency contact #</label><input type="tel" name="Emergency_Contact" placeholder="403-xxx-xxxx"></div>
+      <div class="f"><label>Muster point</label><input type="text" name="Muster_Point" id="muster" placeholder="e.g. Front of lot"></div>
+      <div class="f"><label>Emergency contact #</label><input type="tel" name="Emergency_Contact" id="ephone" placeholder="403-xxx-xxxx"></div>
     </div>
   </div>
 </div>
@@ -231,20 +249,216 @@ textarea{min-height:60px;resize:vertical}
       <p>By typing your full name below and clicking Submit, you electronically acknowledge the following:</p>
       <div class="ack-stmt">"I confirm that I have identified the hazards listed above, that all workers on site today have been informed of these hazards and the controls in place, and that all workers are competent to perform today's work safely in accordance with the Alberta OH&amp;S Act, Regulation and Code."</div>
       <label>Type your full name to acknowledge <span class="req">*</span></label>
-      <input type="text" name="Acknowledged_By" placeholder="Type your full name here" required>
-      <p class="ack-note">Typing your name constitutes your electronic acknowledgment. Date and time are automatically recorded.</p>
+      <input type="text" name="Acknowledged_By" id="pname" placeholder="Type your full name here" required>
+      <p class="ack-note">Typing your name constitutes your electronic acknowledgment. A copy will be emailed to you automatically upon submission.</p>
     </div>
   </div>
 </div>
 
-<button type="submit" class="sub-btn">Submit FLHA</button>
+<button type="button" class="sub-btn" id="subBtn" onclick="doSubmit()">Submit FLHA</button>
 <p class="fnote">Alberta OH&amp;S compliant &bull; Records saved automatically &bull; JBD Construction Ltd.</p>
 
 </form>
+
+<!-- RESULT -->
+<div class="result" id="result">
+  <div class="result-hd"><h2>&#10003; FLHA Submitted and Saved</h2></div>
+  <div class="result-bd">
+    <p style="font-size:14px;color:#2b8a3e;font-weight:bold;margin-bottom:6px">Your FLHA has been recorded and a copy has been emailed to you.</p>
+    <p style="font-size:13px;color:#555;margin-bottom:12px">Keep that email as your proof of completion. You can also print or copy the record below.</p>
+    <div class="recbox" id="recbox"></div>
+    <div class="rbtns">
+      <button class="rbtn" onclick="doCopy()">Copy text</button>
+      <button class="rbtn" onclick="doPrint()">Print / Save PDF</button>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <script>
+emailjs.init("4UXFefzhkMbTqXWwv");
 document.getElementById("dt").value = new Date().toISOString().split("T")[0];
+
+function doSubmit() {
+  var err = document.getElementById("err");
+  err.style.display = "none";
+
+  function v(id){ return document.getElementById(id).value.trim(); }
+  function checkedVals(name){ return Array.from(document.querySelectorAll("input[name='"+name+"']:checked")).map(function(x){return x.value;}); }
+  function radio(n){ var el=document.querySelector("input[name='"+n+"']:checked"); return el?el.value:""; }
+
+  var addr=v("addr"), dt=v("dt"), sup=v("sup"), trade=document.getElementById("trade").value;
+  var email=v("submitterEmail"), pname=v("pname");
+  var haz=checkedVals("Hazard"), ctl=checkedVals("Control"), ppe=checkedVals("PPE");
+
+  if(!addr){err.textContent="Please enter the site address.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!dt){err.textContent="Please select the date.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!sup){err.textContent="Please enter the supervisor name.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!trade){err.textContent="Please select the trade.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!email){err.textContent="Please enter your email address so we can send you a copy.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!haz.length){err.textContent="Please check at least one hazard in Step 1.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!ctl.length){err.textContent="Please check at least one control in Step 2.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!ppe.length){err.textContent="Please check at least one PPE item in Step 3.";err.style.display="block";window.scrollTo(0,0);return;}
+  if(!pname){err.textContent="Please type your full name in Step 4.";err.style.display="block";window.scrollTo(0,0);return;}
+
+  var workers=Array.from(document.querySelectorAll(".wn")).map(function(x){return x.value.trim();}).filter(Boolean);
+  var now=new Date().toLocaleString("en-CA",{dateStyle:"full",timeStyle:"short"});
+  var wx=document.getElementById("wx").value||"Not specified";
+  var ohaz=v("ohaz"), cn=v("cnotes");
+  var hosp=v("hosp")||"Not specified", faid=v("faid")||"Not specified";
+  var muster=v("muster")||"Not specified", ep=v("ephone")||"Not specified";
+
+  var rmap=[["Risk_Falls","Falls from height"],["Risk_Tools","Power tools"],["Risk_Struck","Struck by object"],["Risk_Electrical","Electrical"],["Risk_Excavation","Excavation"],["Risk_Lifting","Manual lifting"],["Risk_Scaffold","Scaffolding/ladders"],["Risk_Chemical","Chemical/dust"],["Risk_Fire","Fire/hot work"],["Risk_Confined","Confined space"],["Risk_Mobile","Mobile equipment"],["Risk_Weather","Adverse weather"],["Risk_Slips","Slips/trips"],["Risk_Noise","Noise/vibration"],["Risk_Overhead","Overhead work"],["Risk_Pinch","Pinch/crush"]];
+  var rlines="";
+  rmap.forEach(function(r){var rv=radio(r[0]);if(rv)rlines+="  "+r[1]+": "+rv+"
+";});
+
+  var rec="============================================
+"
+    +"    JBD CONSTRUCTION LTD.
+"
+    +"    FIELD LEVEL HAZARD ASSESSMENT (FLHA)
+"
+    +"    Alberta OH&S -- New Home Construction
+"
+    +"============================================
+
+"
+    +"DATE:           "+dt+"
+"
+    +"TIME SUBMITTED: "+now+"
+"
+    +"SITE ADDRESS:   "+addr+"
+"
+    +"TRADE:          "+trade+"
+"
+    +"SUPERVISOR:     "+sup+"
+"
+    +"WEATHER:        "+wx+"
+
+"
+    +"WORKERS ON SITE:
+"
+    +(workers.length?workers.map(function(w){return "  "+w;}).join("
+"):"  (none listed)")+"
+
+"
+    +"--------------------------------------------
+"
+    +"STEP 1 -- HAZARDS IDENTIFIED
+"
+    +"--------------------------------------------
+"
+    +haz.map(function(h){return "  [x] "+h;}).join("
+")+"
+"
+    +(ohaz?"  [x] Other: "+ohaz+"
+":"")+"
+"
+    +"RISK RATINGS:
+"
+    +(rlines||"  (none rated)")+"
+"
+    +"--------------------------------------------
+"
+    +"STEP 2 -- CONTROLS IN PLACE
+"
+    +"--------------------------------------------
+"
+    +ctl.map(function(c){return "  [x] "+c;}).join("
+")+"
+"
+    +(cn?"  Additional: "+cn+"
+":"")+"
+"
+    +"--------------------------------------------
+"
+    +"STEP 3 -- PPE REQUIRED
+"
+    +"--------------------------------------------
+"
+    +ppe.map(function(p){return "  [x] "+p;}).join("
+")+"
+
+"
+    +"--------------------------------------------
+"
+    +"EMERGENCY INFORMATION
+"
+    +"--------------------------------------------
+"
+    +"Nearest hospital:  "+hosp+"
+"
+    +"First aid kit:     "+faid+"
+"
+    +"Muster point:      "+muster+"
+"
+    +"Emergency contact: "+ep+"
+
+"
+    +"--------------------------------------------
+"
+    +"SUPERVISOR ACKNOWLEDGMENT
+"
+    +"--------------------------------------------
+"
+    +"Acknowledged by: "+pname+"
+"
+    +"Date / Time:     "+now+"
+"
+    +"Method:          Electronic acknowledgment
+
+"
+    +"============================================
+"
+    +"Records retained minimum 3 years.
+"
+    +"JBD Construction Ltd. | Alberta OH&S
+"
+    +"============================================";
+
+  // Set hidden field for Formspree
+  document.getElementById("fullRecord").value = rec;
+
+  document.getElementById("sending").style.display="block";
+  document.getElementById("subBtn").disabled=true;
+  document.getElementById("subBtn").textContent="Submitting...";
+
+  // Send email copy via EmailJS first, then submit form to Formspree
+  emailjs.send("service_7hcbzyg", "template_ruyyfpb", {
+    submitter_email: email,
+    supervisor_name: sup,
+    date: dt,
+    site_address: addr,
+    full_record: rec
+  }).then(function() {
+    // EmailJS succeeded - now submit to Formspree
+    document.getElementById("flhaForm").submit();
+  }).catch(function(error) {
+    // EmailJS failed but still submit to Formspree so record is not lost
+    console.log("EmailJS error:", error);
+    document.getElementById("flhaForm").submit();
+  });
+}
+
+function doCopy(){
+  var t=document.getElementById("recbox").textContent;
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){alert("Copied!");}).catch(function(){fb(t);});}else{fb(t);}
+}
+function fb(t){
+  var a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;top:0;left:0;opacity:0";
+  document.body.appendChild(a);a.select();
+  try{document.execCommand("copy");alert("Copied!");}catch(e){alert("Please select and copy the text manually.");}
+  document.body.removeChild(a);
+}
+function doPrint(){
+  var t=document.getElementById("recbox").textContent;
+  var w=window.open("","_blank");
+  if(!w){alert("Please allow pop-ups, then try again.");return;}
+  w.document.write("<html><head><title>JBD FLHA</title><style>body{font-family:'Courier New',monospace;font-size:13px;padding:2cm;white-space:pre-wrap;line-height:1.7}@media print{body{padding:1cm}}</style></head><body>"+t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")+"</body></html>");
+  w.document.close();setTimeout(function(){w.print();},400);
+}
 </script>
 </body>
 </html>
